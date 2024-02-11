@@ -1,0 +1,146 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<form>
+
+    <input id="membersdata" type="text">
+    <input type="button"  id="add" value="click me">
+    `<p id="result"><br></p>`
+<br><br>
+</form>
+<script>
+
+const memdata =document.getElementById('membersdata');
+const btn =document.getElementById('add');
+const result =document.getElementById('result');
+
+function func1 (){
+ 
+    result.innerHTML +=memdata.value;
+}
+
+btn.addEventListener("click",func1);
+
+</script>
+
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polling Station</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #memberList {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Polling Station</h2>
+
+  <div id="memberList">
+    <h3>Member List:</h3>
+    <ul id="members"></ul>
+  </div>
+
+  <label for="memberName">Add Member:</label>
+  <input type="text" id="memberName" placeholder="Enter member name">
+  <button onclick="addMember()">Add Member</button>
+
+  <br>
+
+  <label for="voteMember">Vote for Member:</label>
+  <select id="voteMember"></select>
+  <button onclick="vote()">Vote</button>
+
+  <br>
+
+  <button onclick="showWinner()">Show Winner</button>
+  <div id="winner"></div>
+
+  <script>
+    const members = [];
+
+    function addMember() {
+      const memberNameInput = document.getElementById("memberName");
+      const memberName = memberNameInput.value.trim();
+
+      if (memberName === "") {
+        alert("Please enter a valid member name before adding.");
+        return;
+      }
+
+      members.push({ name: memberName, votes: 0 });
+      memberNameInput.value = "";
+      updateMemberList();
+      updateVoteDropdown();
+    }
+
+    function updateMemberList() {
+      const membersListElement = document.getElementById("members");
+      membersListElement.innerHTML = "";
+      
+      members.forEach(member => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${member.name} - Votes: ${member.votes}`;
+        membersListElement.appendChild(listItem);
+      });
+    }
+
+    function updateVoteDropdown() {
+      const voteMemberSelect = document.getElementById("voteMember");
+      voteMemberSelect.innerHTML = "";
+
+      members.forEach((member, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = member.name;
+        voteMemberSelect.appendChild(option);
+      });
+    }
+
+    function vote() {
+      const voteMemberSelect = document.getElementById("voteMember");
+
+      if (members.length === 0) {
+        alert("Please add members before voting.");
+        return;
+      }
+
+      const selectedMemberIndex = voteMemberSelect.value;
+      const selectedMember = members[selectedMemberIndex];
+
+      selectedMember.votes++;
+      updateMemberList();
+      alert(`You voted for ${selectedMember.name}`);
+    }
+
+    function showWinner() {
+      if (members.length === 0) {
+        alert("No members added yet.");
+        return;
+      }
+
+      const winner = members.reduce((prev, current) => (prev.votes > current.votes) ? prev : current);
+      document.getElementById("winner").textContent = `Winner: ${winner.name} with ${winner.votes} votes.`;
+    }
+  </script>
+
+</body>
+</html>
